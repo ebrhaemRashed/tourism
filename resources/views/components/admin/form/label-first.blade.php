@@ -1,0 +1,1 @@
+<label class="form-label">{{ ucfirst($name)??'' }} <span style="color: red">{{ $star??'' }}</span>  </label> <br>
