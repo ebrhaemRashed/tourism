@@ -196,12 +196,12 @@
 
 
             <div class="col-3">
-                <button style="width:100%;height:50px;font-size:25px;"type="button" id="nextBtn" onclick="nextPrev(1)">next</button>
+                <button class="btn btn-warning" style="width:100%;font-size:22px;color:white"type="button" id="nextBtn" onclick="nextPrev(1)">next</button>
             </div>
 
 
             <div class="col-3">
-                <button style="width:100%;height:50px;font-size:25px;" type="button" id="prevBtn" onclick="nextPrev(-1)">previous</button>
+                <button class="btn btn-secondary" style="width:100%;font-size:22px;" type="button" id="prevBtn" onclick="nextPrev(-1)">previous</button>
             </div>
 
             

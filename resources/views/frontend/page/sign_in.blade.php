@@ -42,9 +42,9 @@
             <div class="container">
                 <div class="col-md-10 col-md-offset-1">
                     <div class="col-md-5">
-                        <form action="{{route('thank_you_survey')}}" method="post">
+                        <form action="{{route('survey.store')}}" method="POST">
                             @csrf
-                            @method('post')
+                            @method('POST')
                             <div class="item_login">
                                 <h2 style="font-size:20px;">قم بالتسجيل مجانا بإدخال بياناتك وأحصل على</h2>
                                 <h4 style="font-size:18px">1. خط سير رحلتك المثالى.</h4>
@@ -120,8 +120,8 @@
                                         <input required style="width:50px" type="radio" name="travel_date" id="accurate_date" value="موعد محدد للسفر">
 
                                         <div>
-                                            <input class="first" style="margin-bottom:10px;display:none"name="date_from" type="date" placeholder="من" > 
-                                            <input class="first" style="display:none" name="date_to" type="date" placeholder="إلى">
+                                            <input  class="first" style="margin-bottom:10px;display:none"name="date_from" type="date" placeholder="من" > 
+                                            <input  class="first" style="display:none" name="date_to" type="date" placeholder="إلى">
                                         </div>
                                     
                                         
@@ -131,9 +131,9 @@
                                         <input required style="width:50px" type="radio" name="travel_date" id="near_date" value="موعد تقريبي للسفر">
 
                                         <div>
-                                            <input class="second" style="margin:10px 0px;display:none" name="days_count"  type="number" placeholder="عدد الأيام"> 
+                                            <input  class="second" style="margin:10px 0px;display:none" name="days_count"  type="number" placeholder="عدد الأيام"> 
                                             
-                                            <select required class="second"  name="month" style="width:100%;height:35px;font-size:15px;display:none;padding-right:10px;margin-bottom:12px;"  >
+                                            <select  class="second"  name="month" style="width:100%;height:35px;font-size:15px;display:none;padding-right:10px;margin-bottom:12px;"  >
                                                 <option value=""> اختر الشهر</option>
                                                 <option value="يناير"> يناير</option>
                                                 <option value="فبراير"> فبراير</option>
@@ -152,9 +152,6 @@
 
                                     </div>
 
-
-                                    <!-- data of the questions survey -->
-                                    <input type="hidden" name="q_data" value="{{ json_encode($q_data,TRUE)}}">
 
                                 <div class="butns">
                                     <button id="submit_register" type="submit" >تأكيد الحجز<span class="loader" id="loader"><i
@@ -229,14 +226,23 @@
         $('#accurate_date').click(function(){
             if ($('#accurate_date').is(':checked')) {
                 $('.first').css('display','block');
+                $('.first').prop('required',true);
+
                 $('.second').css('display','none');
+                $('.second').prop('required',false);
+
             }
         });
 
         $('#near_date').click(function(){
             if ($('#near_date').is(':checked')) {
                 $('.first').css('display','none');
+                $('.first').prop('required',false);
+
                 $('.second').css('display','block');
+                $('.second').prop('required',true);
+
+
             }
         });
 

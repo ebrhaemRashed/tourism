@@ -9,8 +9,11 @@
 @section('contentadmin')
 
 <div class="content-body">
-    <x-admin.route :route="$RouteCreate" name="{{ TranslationHelper::translate($CreateView) }}">
-    </x-admin.route>
+
+    @if(count($data) == 0 )
+        <x-admin.route :route="$RouteCreate" name="{{ TranslationHelper::translate($CreateView) }}">
+        </x-admin.route>
+    @endif
     <!-- container starts -->
     <div class="container-fluid">
         <!-- row -->
@@ -25,13 +28,16 @@
                                     <x-admin.basic name="{{ TranslationHelper::translate($nameView) }}"></x-admin.basic>
                                     <x-admin.search :route="$RouteIndex"></x-admin.search>
                                 </div>
-                                <ul class="nav nav-tabs dzm-tabs" id="myTab" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <a href="{{ $RouteCreate }}" class="nav-link active"
-                                            id="home-tab" data-bs-target="#BadgesSize" type="button" role="tab"
-                                            aria-selected="true">{{ TranslationHelper::translate($type) }}</a>
-                                    </li>
-                                </ul>
+                                @if(count($data) == 0 )
+                                    <ul class="nav nav-tabs dzm-tabs" id="myTab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <a href="{{ $RouteCreate }}" class="nav-link active"
+                                                id="home-tab" data-bs-target="#BadgesSize" type="button" role="tab"
+                                                aria-selected="true">{{ TranslationHelper::translate($type) }}</a>
+                                        </li>
+                                    </ul>
+                                @endif
+                                
                                 <!--tab-content-->
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="Preview" role="tabpanel"
@@ -57,7 +63,7 @@
                                                             <td>{{++$key}}</td>
                                                             <td>{{ $item->name }}</td>
                                                             <td>
-                                                                <x-admin.form.image-view :model="$item" name="banner">
+                                                                <x-admin.form.image-view style="100" :model="$item" name="banner">
                                                                 </x-admin.form.image-view>
                                                             </td>
                                                             <td>

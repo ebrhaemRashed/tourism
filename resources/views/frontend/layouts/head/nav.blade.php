@@ -1,16 +1,12 @@
+@inject('banner','App\Models\Banner' )
 <div id="st_header_wrap" class="global-wrap header-wrap container-fluid">
     <div class="row" id="st_header_wrap_inner">
         <header id="main-header" class="st_menu">
             <div class="header-top ">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-3">
-                            <a class="logo" href="{{route('/')}}">
-                                <img src="{{asset('frontend/test_survey/images/CaptureWhiteColorTest.png')}}" alt="logo"
-                                    title="Travoneer">
-                            </a>
-                        </div>
-                        <div class="col-md-9">
+                        
+                        <div class="col-md-10">
                             <div class="top-user-area clearfix">
                                 <ul class="top-user-area-list list list-horizontal list-border">
                                     <li class="top-user-area-lang nav-drop"></li>
@@ -19,6 +15,18 @@
 
                             </div>
                         </div>
+
+                        <div class="col-md-2">
+                            <a class="logo" href="{{route('/')}}">
+
+                            
+                            <x-admin.form.image-view style="100" :model="$banner->first()" name="banner">
+                            </x-admin.form.image-view>
+                                <!-- <img style="width:90%" src="{{asset('frontend/test_survey/images/CaptureWhiteColorTest.png')}}" alt="logo"
+                                    title="Travoneer"> -->
+                            </a>
+                        </div>
+
                     </div>
                 </div>
             </div>

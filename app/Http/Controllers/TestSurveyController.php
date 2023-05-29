@@ -27,17 +27,40 @@ class TestSurveyController extends Controller
 
     // survey sign_in
     public function signIn(Request $request){
-        $q_data = $request->all();
+
+
+        // session()->flush();
+
+
+        $survey_data = $request->all();
         
-        return view('frontend.page.sign_in',['q_data'=>$q_data]);
+
+        foreach($survey_data  as  $key => $value){
+            if($key != '_token' && $key != '_method'){
+
+                $q_id = str_replace("q","",$key);
+    
+                session([$q_id => $value]);
+            }
+        }   
+
+
+        
+        return view('frontend.page.sign_in');
     }
 
 
 
-    public function thankYou(Request $request){
+    public function store(Request $request){
         
-    
+
         // 1)store in users table
+
+        // a.set session_key
+        session(['session_key'=> time()]);
+        $session_key = session('session_key');
+
+        // b.store in users table
        $user =  DB::table('users')->insert([
             'name'=>$request->user_name,
             'email'=>$request->user_email,
@@ -52,7 +75,7 @@ class TestSurveyController extends Controller
             'date_to'=>$request->date_to,
             'days_count'=>$request->days_count,
             'month'=>$request->month,
-
+            'session_key'=>$session_key,
         ]);
 
 
@@ -60,128 +83,50 @@ class TestSurveyController extends Controller
         // 2)store in answer_user table
     
         // a.get last user_id inserted
-        $user_id = DB::table('users')->orderBy('id','DESC')->first()->id;
+        $user_id = DB::table('users')->where('session_key',$session_key)->first()->id;
 
 
-        // b.get_survey_data_in_an_array
-        $survey_data_json = $request->q_data;
-        $survey_data_array = json_decode($survey_data_json, true);
+        // b.store_survey_data 
+        foreach(session()->all() as $key => $value){
+            if(is_int($key) && $key > 0){
+                $q_id = str_replace("q","",$key);
+                $q = Question::find($q_id);
 
-        $questions_array = [];
+                if($q->type == 'image'){
+                    foreach ($value as  $value2) {
+                        DB::table('answer_user')->insert([
 
-        foreach($survey_data_array  as  $key => $value){
-            if($key != '_token' && $key != '_method'){
-                $questions_array[$key] = $value;
+                            'user_id'=>$user_id,
+                            'question_id'=>$q_id,
+                            'answer_id'=> $value2
+                        ]);
+                    }
+                }  
             }
-        }   
-
-
-        // c.store_survey_data 
-        foreach($questions_array as $key => $value){
-            $q_id = str_replace("q","",$key);
-            $q = Question::find($q_id);
-
-            if($q->type == 'image'){
-                foreach ($value as $key2 => $value2) {
-                    DB::table('answer_user')->insert([
-
-                        'user_id'=>$user_id,
-                        'question_id'=>$q_id,
-                        'answer_id'=> $value2
-                    ]);
-                }
-             }  
         }
 
 
+        // 3) empty the session
+        session()->flush();
+
+
  
-        // 3)redirect to thank you page
+        // 4) redirect to thank you page
+        return redirect()->route('thank_you_survey');
+
+
+
+    }
+
+
+    public function thankYou(){
         return view('frontend.page.thank_you');
-
-
-
     }
 }
 
 
 
-    // public function thankYou(TestServicesRequest $request){
-        
-    
-    //     // 1)store in users table
-    //    $user =  DB::table('users')->insert([
-    //         'name'=>$request->q8['36'],
-    //         'email'=>$request->q8['37'],
-    //         'mobile'=>$request->q8['38'],
-    //         'communicate_way'=>$request->q8['39'],
-    //         'payment_method'=>$request->q8['40'],
-    //         'about_yourself'=>$request->q8['41']
-    //     ]);
-
-    //     // dd($request->all());
-
-    
-
-    //     // 2)store in answer_user table
-    //     $user_id = DB::table('users')->orderBy('id','DESC')->first()->id;
-
-    //             foreach($request->validated() as $key=>$value){
-    //                 $q_id = str_replace("q","",$key);
-    //                 $q = Question::find($q_id);
-
-    //                 if($q->type == 'image' || $q->type == 'checkbox'){
-    //                     foreach ($value as $key2 => $value2) {
-    //                         DB::table('answer_user')->insert([
-    
-    //                             'user_id'=>$user_id,
-    //                             'question_id'=>$q_id,
-    //                             'answer_id'=> $value2
-    //                         ]);
-    //                     }
-
-    //                 }elseif($q->type == 'counter' || $q->type == 'form'){
-    //                     foreach ($value as $key2 => $value2) {
-    //                         DB::table('answer_user')->insert([
-    
-    //                             'user_id'=>$user_id,
-    //                             'question_id'=>$q_id,
-    //                             'answer_id'=> $key2,
-    //                             'value_of_answer'=>$value2,
-    //                         ]);
-    //                     }
-    //                 }elseif($q->type =='dateAndCounter'){
-    //                     foreach ($value as $key2 => $value2) {
-    //                         if($key2 == 0) {
-    //                             $answer_id = $value2;
-    //                         }
-
-    //                         if($value2 != null && $key2 != 0){
-    //                             DB::table('answer_user')->insert([
-
-    //                                 'user_id'=>$user_id,
-    //                                 'question_id'=>$q_id,
-    //                                 'answer_id'=> $answer_id ,
-    //                                 'value_of_answer'=>$value2,
-    //                             ]);
-    //                         }
-                            
-    //                     }
-
-    //                 }
-    
-    //             }  
-
-
-
-
-        
-    //     // 3)redirect to thank you page
-    //     return view('frontend.page.thank_you');
-
-
-
-    // }
-
+  
 
 
 

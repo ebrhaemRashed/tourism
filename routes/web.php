@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 use App\Http\Controllers\TestSurveyController;
+use App\Models\Question;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +25,7 @@ Route::group(
     ], function(){ //...
     // start Route
 
-        Route::get('/', function () {
-            return view('welcome');
-        })->name('/');
+
         
         Route::get('/', function () {
             return view('welcome');
@@ -58,8 +57,15 @@ Route::group(
         // test servey page (users)
         Route::get('/index_survey', [TestSurveyController::class,'index'])->name('index_survey');
         Route::get('/sign_in', [TestSurveyController::class,'signIn'])->name('signIn_survey');
-        Route::post('/thank_you', [TestSurveyController::class,'thankYou'])->name('thank_you_survey');
 
+        Route::post('/store', [TestSurveyController::class,'store'])->name('survey.store');
+        Route::get('/thank_you', [TestSurveyController::class,'thankYou'])->name('thank_you_survey');
+
+
+
+        Route::get('/test',function(){
+            $questions = Question::all();
+            return view('frontend.page.test',['questions'=>$questions]);});
 
         
     // End Route
