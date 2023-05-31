@@ -167,18 +167,31 @@
         <div class="tab">
         <h1 style="text-align:center;margin-bottom:75px;font-size:35px;">{{$q->question}} </h1>
             
-                <!-- images -->
-                @if($q->type == 'image')
+                <!-- checkbox (multiple_answer) -->
+                @if($q->type == 'checkbox')
                     <div class="row justify-content-between">
                         @foreach($q->answers as $a)
                             <div class="col-3">
-                                <input name="q{{$q->id}}[]" value="{{$a->id}}" style="display:none" type='checkbox' id="image{{$a->id}}" oninput="this.className = ''" />
+                                <input   name="q{{$q->id}}[]" value="{{$a->id}}"  style="display:none" type='checkbox' id="image{{$a->id}}" oninput="this.className = ''" />
                                 <label style="margin:10px" for="image{{$a->id}}">
-                                    <img style="width:200px !important" class="image"  src="{{asset($a->image)}}" data="{{$a->id}}"> 
+                                    <img max="{{$q->max}}" style="width:200px !important" class="image {{$q->id}}" question_id="{{$q->id}}"  src="{{asset($a->image)}}" data="{{$a->id}}" question_type="checkbox"> 
                                 </label>
                             </div>
                         @endforeach
                     </div>
+
+                @elseif($q->type == 'radio')
+                    <div class="row justify-content-between">
+                        @foreach($q->answers as $a)
+                            <div class="col-3">
+                                <input name="q{{$q->id}}[]" value="{{$a->id}}"  style="display:none" type='radio' id="image{{$a->id}}" oninput="this.className = ''" />
+                                <label style="margin:10px" for="image{{$a->id}}">
+                                    <img style="width:200px !important" class="image {{$q->id}}" question_id="{{$q->id}}"  src="{{asset($a->image)}}" data="{{$a->id}}" question_type="radio"> 
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+
                 @endif
 
         </div>
@@ -238,16 +251,60 @@
 <script>
 $(document).ready(function(){
 
-// checkbox
-  $('.image').click(function(event){
-    var img_id = $(event.target).attr('data');
 
-    if ($('#image'+img_id).is(':checked')) {
-        $(event.target).css('opacity','1');
-    }else{
+
+$('.image').click(function(event){
+
+    var question_type = $(event.target).attr('question_type');
+
+    if(question_type == 'radio'){    // radio input
+
+        var img_id = $(event.target).attr('data');
+
+        $('#image'+img_id).prop('checked',true);
+        $('.image').css('opacity','1');
         $(event.target).css('opacity','.5');
+
+
+    }else if(question_type == 'checkbox'){    // checkbox input
+
+        var img_id = $(event.target).attr('data');
+
+        if ($('#image'+img_id).is(':checked')){
+            $(event.target).css('opacity','1');
+        }else{
+            $(event.target).css('opacity','.5');
+        }
+
+
+
+        // validate the count of answers
+        var question_id = $(event.target).attr('question_id');
+        var answers_count = $('.'+question_id).size();
+        var max_count_answers = $(event.target).attr('max');
+        var sub = answers_count - max_count_answers;
+
+        var notCheckCount = 0 ;
+        $('.'+question_id).each(function() {
+            // alert($(this).css('opacity'));
+            if($(this).css('opacity') == '1'){
+                notCheckCount++;
+            }
+        });
+
+        
+        if (notCheckCount < sub){
+
+            $(event.target).css('opacity','1');
+        }
     }
-  });
+
+
+})
+
+
+
+
 
 
 

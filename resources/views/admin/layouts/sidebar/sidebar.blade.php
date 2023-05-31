@@ -174,8 +174,8 @@
                     <span class="nav-text">Survey</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('admin.questions.index') }}">Questions</a></li>
-                    <li><a href="{{ route('admin.answers.index') }}">Answers</a></li>
+                    <li><a href="{{ route('admin.question.index') }}">Questions</a></li>
+                    <li><a href="{{ route('admin.answer.index') }}">Answers</a></li>
                 </ul>
             </li>
             {{-- end survey --}}

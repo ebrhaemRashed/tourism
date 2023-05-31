@@ -29,21 +29,20 @@ class TestSurveyController extends Controller
     public function signIn(Request $request){
 
 
-        // session()->flush();
-
-
         $survey_data = $request->all();
+
         
 
         foreach($survey_data  as  $key => $value){
-            if($key != '_token' && $key != '_method'){
+            if(preg_match("/^q(.*)/i", $key)){
 
-                $q_id = str_replace("q","",$key);
+                // $q_id = str_replace("q","",$key);
     
-                session([$q_id => $value]);
+                session([$key => $value]);
             }
         }   
 
+        // dd(session()->all());
 
         
         return view('frontend.page.sign_in');
@@ -54,8 +53,10 @@ class TestSurveyController extends Controller
     public function store(Request $request){
         
 
+
         // 1)store in users table
 
+        
         // a.set session_key
         session(['session_key'=> time()]);
         $session_key = session('session_key');
@@ -79,35 +80,39 @@ class TestSurveyController extends Controller
         ]);
 
 
-
         // 2)store in answer_user table
     
         // a.get last user_id inserted
         $user_id = DB::table('users')->where('session_key',$session_key)->first()->id;
 
-
         // b.store_survey_data 
         foreach(session()->all() as $key => $value){
-            if(is_int($key) && $key > 0){
+            if(preg_match("/^q(.*)/i", $key)){
                 $q_id = str_replace("q","",$key);
+
                 $q = Question::find($q_id);
 
-                if($q->type == 'image'){
+                if($q->type == 'radio' || $q->type == 'checkbox' ){
                     foreach ($value as  $value2) {
-                        DB::table('answer_user')->insert([
 
+                        DB::table('answer_user')->insert([
                             'user_id'=>$user_id,
                             'question_id'=>$q_id,
                             'answer_id'=> $value2
                         ]);
                     }
-                }  
+
+                }
+
             }
         }
 
 
+
+
         // 3) empty the session
         session()->flush();
+
 
 
  

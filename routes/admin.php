@@ -71,8 +71,9 @@ Route::group(
 
 
         // survey (questions & answers)
-        Route::resource('questions', QuestionController::class);
-        Route::resource('answers', AnswerController::class);
+        Route::resource('question', QuestionController::class);
+
+        Route::resource('answer', AnswerController::class);
 
 
     // End Route

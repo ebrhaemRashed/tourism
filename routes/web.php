@@ -63,10 +63,7 @@ Route::group(
 
 
 
-        Route::get('/test',function(){
-            $questions = Question::all();
-            return view('frontend.page.test',['questions'=>$questions]);});
-
+        
         
     // End Route
 });

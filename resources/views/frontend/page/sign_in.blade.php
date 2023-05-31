@@ -41,6 +41,8 @@
         <section class="login">
             <div class="container">
                 <div class="col-md-10 col-md-offset-1">
+
+                    <!-- form -->
                     <div class="col-md-5">
                         <form action="{{route('survey.store')}}" method="POST">
                             @csrf
@@ -111,7 +113,7 @@
 
 
                                     <!-- الوقت المفضل للسفر -->
-                                    <div class="input_name"> 
+                                    <div class="input_contact"> 
                                         <h4 style="font-size:15px;">الوقت المفضل للسفر</h4>
 
 
@@ -130,10 +132,10 @@
                                         <label for="near_date">  موعد تقريبي للسفر</labe>
                                         <input required style="width:50px" type="radio" name="travel_date" id="near_date" value="موعد تقريبي للسفر">
 
-                                        <div>
+                                        <div >
                                             <input  class="second" style="margin:10px 0px;display:none" name="days_count"  type="number" placeholder="عدد الأيام"> 
                                             
-                                            <select  class="second"  name="month" style="width:100%;height:35px;font-size:15px;display:none;padding-right:10px;margin-bottom:12px;"  >
+                                            <select  class="second"  name="month" style="width:100%;height:50px;font-size:15px;display:none;padding-right:10px;margin-bottom:12px;"  >
                                                 <option value=""> اختر الشهر</option>
                                                 <option value="يناير"> يناير</option>
                                                 <option value="فبراير"> فبراير</option>
@@ -164,8 +166,10 @@
                             </div>
                         </form>
                     </div>
+
+                    <!-- google map -->
                     <div class="col-md-7">
-                        <div class="ligon2">
+                        <div class="ligon2" style="width:100%">
                             <!-- GOOGLE MAPS -->
                             <style>
                                 #map {
@@ -174,10 +178,8 @@
                                 }
                             </style>
                             <div id="map">
-                                <div style="height: 100%; width: 100%;">
-                                    <div style="overflow: hidden; width: 507px; height: 400px;"><img alt=""
-                                            src="https://maps.googleapis.com/maps/api/js/StaticMapService.GetMapImage?1m2&amp;1i1899&amp;2i1266&amp;2e1&amp;3u4&amp;4m2&amp;1u507&amp;2u400&amp;5m6&amp;1e0&amp;5sen-US&amp;6sus&amp;10b1&amp;12b1&amp;14i1379903&amp;key=AIzaSyBteI6ayxoJLGx_6HDmIzB84sohu2fuMWY&amp;token=79022"
-                                            style="width: 507px; height: 400px;"></div>
+                                <div id="map" style="height: 100%; width: 100%;">
+                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d221266.97042934617!2d30.717411090551476!3d29.94215153166356!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145855e126df199d%3A0x24a6cf9d2fda5678!2s6th%20of%20October%20City%2C%20Giza%20Governorate!5e0!3m2!1sen!2seg!4v1685444389703!5m2!1sen!2seg" width="507" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                                 </div>
                             </div>
                             <!-- <div style="padding:20px">
@@ -189,7 +191,7 @@
                                 <h4 style="font-size:14px">من 2 إلى 4 ليالي</h4>
                             </div> -->
                             <!-- <img class="ligon2img" src="https://www.travoneer.com/wp-content/plugins/travoneer-extend//public/icon/Layer.jpg" title="test"> -->
-                            <div style="padding-right:20px">
+                            <div style="padding-right:20px; margin-top:70px">
                                 <p style="font-size:16px">يمكن أيضا التواصل معنا بشكل مباشر عبر:</p>
                                 <p><img
                                         src="https://www.travoneer.com/wp-content/plugins/travoneer-extend//public/icon/close-envelope.png">
@@ -250,7 +252,13 @@
 
     });
 </script>
+
+
+
+
 @endsection
+
+
 
 
 @section('jsfrontend')

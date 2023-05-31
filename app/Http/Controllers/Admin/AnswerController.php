@@ -1,85 +1,75 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
+use App\Actions\Answer\StoreAnswerAction;
+use App\Actions\Answer\UpdateAnswerAction;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Answer\StoreAnswerRequest;
+use App\Http\Requests\Answer\UpdateAnswerRequest;
+use App\Models\Answer;
+use App\ViewModels\AnswerView\AnswerViewModel;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
+
 
 class AnswerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+    protected $nameViewCrud;
+    protected $messageStore;
+    protected $messageUpdate;
+    protected $messageDelete;
+    protected $route;
+    protected $Model;
+    protected $StoreAction;
+    protected $UpdateAction;
+
+    public function __construct(Answer $Answer){
+        $this->Model=$Answer;
+        $this->messageStore='Success Add Answer';
+        $this->messageUpdate='Update Answer';
+        $this->messageDelete='Success  Delete Answer';
+        $this->route='admin.Answer.index';
+        $this->nameViewCrud='admin.Answer';
+        $this->StoreAction=StoreAnswerAction::class;
+        $this->UpdateAction=UpdateAnswerAction::class;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function ViewModel($data=null): AnswerViewModel
     {
-        //
+       $ViewMode = new AnswerViewModel($data);
+       return $ViewMode;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function index():View
     {
-        //
+        
+        $data = $this->Model::Search();
+        return view($this->nameViewCrud.'.view',$this->ViewModel(),compact('data'));
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function create():View
     {
-        //
+        return view($this->nameViewCrud.'.crud',$this->ViewModel());
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function store(StoreAnswerRequest $request)
     {
-        //
+        app($this->StoreAction)->handle($request->validated());
+        return redirect()->route($this->route)->with('add',$this->messageStore);
     }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function edit($id):View
     {
-        //
+        $data = $this->Model::where('id',$id)->first();
+        return view($this->nameViewCrud.'.crud',$this->ViewModel($data));
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function update(UpdateAnswerRequest $request, $id):RedirectResponse
     {
-        //
+        $data = $this->Model::find($id);
+        app($this->UpdateAction)->handle($data,$request->validated());
+        return redirect()->route($this->route)->with('edit',$this->messageUpdate);
+    }
+    public function destroy($id):RedirectResponse
+    {
+        $data = $this->Model::find($id);
+        $data->delete();
+        return redirect()->route($this->route)->with('delete',$this->messageDelete);
     }
 }
