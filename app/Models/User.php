@@ -13,32 +13,17 @@ use MatanYadaev\EloquentSpatial\Traits\HasSpatial;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
-use Spatie\Translatable\HasTranslations;
 
 class User extends Authenticatable implements  HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, HasSpatial, HasRoles, InteractsWithMedia, HasTranslations;
+    use HasApiTokens, HasFactory, Notifiable, HasSpatial, HasRoles, InteractsWithMedia ;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    // public $translatable = ['name'];
-    // protected $fillable = [
-    //     'name',
-    //     'slug',
-    //     'email',
-    //     'address',
-    //     'mobile',
-    //     'gender',
-    //     'location',
-    //     'country_id',
-    //     'city_id',
-    //     'district_id',
-    //     'status',
-    //     'password',
-    // ];
+    
     protected $guarded = [];
 
    public function scopeSearch($query):LengthAwarePaginator
@@ -78,11 +63,7 @@ class User extends Authenticatable implements  HasMedia
         'location' => Point::class,
         'email_verified_at' => 'datetime',
     ];
-    // public function getActivitylogOptions(): LogOptions
-    // {
-    //     return LogOptions::defaults();
-    // }
-
+    
 
 
     public function answers(){

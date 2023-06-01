@@ -176,6 +176,8 @@
                 <ul aria-expanded="false">
                     <li><a href="{{ route('admin.question.index') }}">Questions</a></li>
                     <li><a href="{{ route('admin.answer.index') }}">Answers</a></li>
+                    <li><a href="{{ route('admin.resurvation.index') }}">Resurvations</a></li>
+
                 </ul>
             </li>
             {{-- end survey --}}

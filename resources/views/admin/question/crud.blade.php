@@ -30,18 +30,28 @@
                                     </x-admin.form.label-end>
                                 </div>
 
+
+
+                                <!-- question_type -->
                                 <div class="mb-3 col-md-6">
                                     <x-admin.form.label-first star="*" name="type"></x-admin.form.label-first>
-                                    <x-admin.form.input old="type" :value="$Question->type" name="type" type="text"
-                                        placeholder="type"></x-admin.form.input>
-                                    <x-admin.form.label-end name="Please Enter type">
+
+                                    <select style="height:40px" name="type"> 
+                                        <option value="radio"> Has One Answer</option>
+                                        <option value="checkbox"> Has More than One Answer</option>
+                                    </select>
+                                    <br>
+
+                                    <x-admin.form.label-end name="Select Enter type">
                                     </x-admin.form.label-end>
                                 </div>
+
+
 
                                 <div class="mb-3 col-md-6">
                                     <x-admin.form.label-first star="*" name="max"></x-admin.form.label-first>
                                     <x-admin.form.input old="max" :value="$Question->days" name="max" type="number"
-                                        placeholder="max"></x-admin.form.input>
+                                        placeholder="enter max number of answers"></x-admin.form.input>
                                     <x-admin.form.label-end name="Please Enter max">
                                     </x-admin.form.label-end>
                                 </div>

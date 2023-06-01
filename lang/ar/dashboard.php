@@ -212,4 +212,12 @@
   'answer' => 'Answer',
   'question_id' => 'Question id',
   'image' => 'Image',
+  'Index Answer' => 'Index Answer',
+  'Form Answer' => 'Form Answer',
+  'Resurvation' => 'Resurvation',
+  'Create Resurvation' => 'Create Resurvation',
+  'user' => 'User',
+  'vha]' => 'Vha]',
+  'Index Resurvation' => 'Index Resurvation',
+  'Form Resurvation' => 'Form Resurvation',
 );

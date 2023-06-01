@@ -24,7 +24,7 @@ use App\Http\Controllers\Admin\TagsController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\AnswerController;
-
+use App\Http\Controllers\Admin\ResurvationController;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -70,10 +70,13 @@ Route::group(
         Route::resource('banner', BannerController::class);
 
 
-        // survey (questions & answers)
+        // survey (questions & answers & resurvations)
         Route::resource('question', QuestionController::class);
 
         Route::resource('answer', AnswerController::class);
+
+        Route::resource('resurvation', ResurvationController::class);
+
 
 
     // End Route

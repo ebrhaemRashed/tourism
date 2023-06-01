@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Answer\StoreAnswerRequest;
 use App\Http\Requests\Answer\UpdateAnswerRequest;
 use App\Models\Answer;
+use App\Models\Question;
 use App\ViewModels\AnswerView\AnswerViewModel;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -28,8 +29,8 @@ class AnswerController extends Controller
         $this->messageStore='Success Add Answer';
         $this->messageUpdate='Update Answer';
         $this->messageDelete='Success  Delete Answer';
-        $this->route='admin.Answer.index';
-        $this->nameViewCrud='admin.Answer';
+        $this->route='admin.answer.index';
+        $this->nameViewCrud='admin.answer';
         $this->StoreAction=StoreAnswerAction::class;
         $this->UpdateAction=UpdateAnswerAction::class;
     }
@@ -42,13 +43,13 @@ class AnswerController extends Controller
 
     public function index():View
     {
-        
         $data = $this->Model::Search();
         return view($this->nameViewCrud.'.view',$this->ViewModel(),compact('data'));
     }
     public function create():View
     {
-        return view($this->nameViewCrud.'.crud',$this->ViewModel());
+        $questions = Question::all();
+        return view($this->nameViewCrud.'.crud',$this->ViewModel(),['questions'=>$questions]);
     }
     public function store(StoreAnswerRequest $request)
     {
@@ -57,8 +58,9 @@ class AnswerController extends Controller
     }
     public function edit($id):View
     {
+        $questions= Question::all();
         $data = $this->Model::where('id',$id)->first();
-        return view($this->nameViewCrud.'.crud',$this->ViewModel($data));
+        return view($this->nameViewCrud.'.crud',$this->ViewModel($data),['questions'=>$questions]);
     }
     public function update(UpdateAnswerRequest $request, $id):RedirectResponse
     {

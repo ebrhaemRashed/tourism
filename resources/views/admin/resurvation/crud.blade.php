@@ -22,19 +22,29 @@
                         <form method="post" action="{{$action}}">
                             @include('components.admin.csrf')
                             <div class="row">
+
+
+
+                                <!-- choose the user -->
                                 <div class="mb-3 col-md-6">
-                                    <x-admin.form.label-first star="*" name="answer"></x-admin.form.label-first>
-                                    <x-admin.form.input old="answer" :value="$Answer->answer" name="answer" type="text"
-                                        placeholder="answer"></x-admin.form.input>
-                                    <x-admin.form.label-end name="Please Enter answer">
+                                    <x-admin.form.label-first star="*" name="user"></x-admin.form.label-first>
+
+                                    <select style="height:40px" name="user_id"> 
+                                        @foreach($users as $u)
+                                            <option value="{{$u->id}}"> {{$u->name}}  </option>
+                                        @endforeach
+                                    </select>
+
+                                    <x-admin.form.label-end name="Choose the user">
                                     </x-admin.form.label-end>
+
                                 </div>
 
 
 
                                 <!-- choose the question -->
                                 <div class="mb-3 col-md-6">
-                                    <x-admin.form.label-first star="*" name="quqestion"></x-admin.form.label-first>
+                                    <x-admin.form.label-first star="*" name="question"></x-admin.form.label-first>
 
                                     <select style="height:40px" name="question_id"> 
                                         @foreach($questions as $q)
@@ -49,14 +59,20 @@
 
                                 
 
+                                <!-- choose the answer -->
                                 <div class="mb-3 col-md-6">
-                                    <x-admin.form.label-first star="*" name="image"></x-admin.form.label-first>
-                                    <x-admin.form.input old="image" :value="$Answer->image" name="image" type="file"
-                                        placeholder="image"></x-admin.form.input>
-                                    <x-admin.form.label-end name="Please Enter image">
-                                    </x-admin.form.label-end>
-                                </div>
+                                    <x-admin.form.label-first star="*" name="answer"></x-admin.form.label-first>
 
+                                    <select style="height:40px" name="answer_id"> 
+                                        @foreach($answers as $q)
+                                            <option value="{{$q->id}}"> {{$q->answer}}  </option>
+                                        @endforeach
+                                    </select>
+
+                                    <x-admin.form.label-end name="Choose the answer">
+                                    </x-admin.form.label-end>
+
+                                </div>
 
                                 
                                 
