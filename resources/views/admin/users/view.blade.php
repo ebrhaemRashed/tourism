@@ -81,10 +81,10 @@
                                                                 <x-admin.status :status="$item->status">
                                                                 </x-admin.status>
                                                             </td>
-                                                            <td>{{ $item->created_at->toFormattedDateString('Y-m-d') }}</td>
+                                                            <td>{{ $item->created_at? $item->created_at->toFormattedDateString('Y-m-d'):'' }}</td>
                                                               <td>
                                                                 <x-admin.edit
-                                                                    :route="route($RouteEdit, $item->slug)">
+                                                                    :route="route($RouteEdit, $item->id)">
                                                                 </x-admin.edit>
                                                                 <x-admin.delete-model :id="$item->id"
                                                                     :name="$item->name"

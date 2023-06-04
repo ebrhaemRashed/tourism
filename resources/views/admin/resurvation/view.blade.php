@@ -64,7 +64,7 @@
                                                        
                                                             
 
-                                                            <td>{{ $item->created_at?$item->created_at->toFormattedDateString('Y-m-d'):'no_date'}}
+                                                            <td>{{ $item->created_at?$item->created_at->toFormattedDateString('Y-m-d'):''}}
                                                             </td>
                                                             <td>
                                                                 <x-admin.edit

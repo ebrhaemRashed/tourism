@@ -59,11 +59,15 @@
                                                             <td>{{++$key}}</td>
                                                             <td>{{ $item->answer??'' }}</td>
                                                             <td>{{ $item->question()->first()->question??'' }}</td>
-                                                            <td> <img style="width:100px"src="{{asset($item->image??'')}}"> </td>
+                                                            
+                                                            <td>
+                                                                <x-admin.form.image-view style="100" :model="$item" name="answer">
+                                                                </x-admin.form.image-view>
+                                                            </td>
                                                        
                                                             
 
-                                                            <td>{{ $item->created_at?$item->created_at->toFormattedDateString('Y-m-d'):'no_date'}}
+                                                            <td>{{ $item->created_at?$item->created_at->toFormattedDateString('Y-m-d'):''}}
                                                             </td>
                                                             <td>
                                                                 <x-admin.edit
@@ -82,7 +86,7 @@
                                                         <tr style="background-color: #F0F4F9;">
                                                             <x-admin.table th1='#'
                                                                 th2="{{ TranslationHelper::translate('answer') }}"
-                                                                th3="{{ TranslationHelper::translate('question_id') }}"
+                                                                th3="{{ TranslationHelper::translate('question') }}"
                                                                 th4="{{ TranslationHelper::translate('image') }}"
                                                                 th5="{{ TranslationHelper::translate('created_at') }}"
                                                                 th6="{{ TranslationHelper::translate('actions') }}">

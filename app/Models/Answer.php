@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Answer extends Model
+class Answer extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory ,InteractsWithMedia  ;
     protected $table = 'answers';
     protected $guarded = [];
 

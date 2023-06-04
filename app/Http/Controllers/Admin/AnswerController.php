@@ -53,6 +53,7 @@ class AnswerController extends Controller
     }
     public function store(StoreAnswerRequest $request)
     {
+        // dd($request->all());
         app($this->StoreAction)->handle($request->validated());
         return redirect()->route($this->route)->with('add',$this->messageStore);
     }

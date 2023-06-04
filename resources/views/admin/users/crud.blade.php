@@ -22,20 +22,16 @@
                         <form method="post" action="{{$action}}" enctype="multipart/form-data">
                             @include('components.admin.csrf')
                             <div class="row">
-                                @foreach ($translation as $item)
+                                
+
+                                <!-- user_name_input -->
                                 <div class="mb-3 col-md-6">
-                                    <x-admin.form.label-first star="*" name="Name {{ ucfirst(TranslationHelper::translate($item->name))  }}">
-                                    </x-admin.form.label-first>
-                                    <x-admin.form.input old="{{ 'name.'.$item->key }}"
-                                        name="{{ 'name'.'['.$item->key.']' }}" type="text"
-                                        placeholder="Name {{ ucfirst($item->name)  }}"
-                                        :value="$user->translate('name', $item->key)"></x-admin.form.input>
-                                    <x-admin.form.label-end
-                                        name="Please Enter {{ ucfirst($item->name) }} Admin Name">
+                                    <x-admin.form.label-first star="*" name="Name"></x-admin.form.label-first>
+                                    <x-admin.form.input old="name" :value="$user->name" name="name" type="name"
+                                        placeholder="Enter your name"></x-admin.form.input>
+                                    <x-admin.form.label-end name="Please Enter name">
                                     </x-admin.form.label-end>
                                 </div>
-
-                                @endforeach
 
                                 <div class="mb-3 col-md-6">
                                     <x-admin.form.label-first star="*" name="Email"></x-admin.form.label-first>

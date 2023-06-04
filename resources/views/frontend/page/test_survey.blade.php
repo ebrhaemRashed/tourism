@@ -174,7 +174,11 @@
                             <div class="col-3">
                                 <input   name="q{{$q->id}}[]" value="{{$a->id}}"  style="display:none" type='checkbox' id="image{{$a->id}}" oninput="this.className = ''" />
                                 <label style="margin:10px" for="image{{$a->id}}">
-                                    <img max="{{$q->max}}" style="width:200px !important" class="image {{$q->id}}" question_id="{{$q->id}}"  src="{{asset($a->image)}}" data="{{$a->id}}" question_type="checkbox"> 
+                                    @if (!empty($a->getFirstMediaUrl('answer')))
+                                       <img max="{{$q->max}}" style="width:200px !important" class="image {{$q->id}}" question_id="{{$q->id}}"  src="{{ asset($a->getFirstMediaUrl('answer') )}}" data="{{$a->id}}" question_type="checkbox"> 
+                                    @else
+                                      <img src="{{ asset('admin/images/noimage.jpg') }}" class="rounded-lg me-2" width="{{$style??'50'}}" alt="">
+                                    @endif
                                 </label>
                             </div>
                         @endforeach
@@ -185,8 +189,17 @@
                         @foreach($q->answers as $a)
                             <div class="col-3">
                                 <input name="q{{$q->id}}[]" value="{{$a->id}}"  style="display:none" type='radio' id="image{{$a->id}}" oninput="this.className = ''" />
-                                <label style="margin:10px" for="image{{$a->id}}">
-                                    <img style="width:200px !important" class="image {{$q->id}}" question_id="{{$q->id}}"  src="{{asset($a->image)}}" data="{{$a->id}}" question_type="radio"> 
+                                <label style="margin:10px" for="image{{$a->id}}" class="labelx">
+
+                                    <!-- <img style="width:200px !important" class="image {{$q->id}}" question_id="{{$q->id}}"  src="{{asset($a->image)}}" data="{{$a->id}}" question_type="radio">  -->
+
+                                    @if (!empty($a->getFirstMediaUrl('answer')))
+                                        <img style="width:200px !important" class="image {{$q->id}}" question_id="{{$q->id}}"  src="{{ asset($a->getFirstMediaUrl('answer') )}}" data="{{$a->id}}" question_type="radio"> 
+
+                                        @else
+                                        <img src="{{ asset('admin/images/noimage.jpg') }}" class="rounded-lg me-2" width="{{$style??'50'}}" alt="">
+                                    @endif
+                                
                                 </label>
                             </div>
                         @endforeach
@@ -254,6 +267,7 @@ $(document).ready(function(){
 
 
 $('.image').click(function(event){
+
 
     var question_type = $(event.target).attr('question_type');
 

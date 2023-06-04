@@ -56,14 +56,20 @@
                                                         <tr>
                                                             <td>{{++$key}}</td>
                                                             <td>{{ $item->question??'' }}</td>
-                                                            <td>{{ $item->type??'' }}</td>
+
+
+                                                            @if($item->type == 'checkbox')
+                                                                <td>More than one answer</td>
+                                                            @elseif($item->type == 'radio')
+                                                                <td>One answer</td>
+                                                            @endif
                                                        
                                                             <!-- <td>
                                                                 <x-admin.status :status="$item->status">
                                                                 </x-admin.status>
                                                             </td> -->
 
-                                                            <td>{{ $item->created_at?$item->created_at->toFormattedDateString('Y-m-d'):'no_date ' }}
+                                                            <td>{{ $item->created_at?$item->created_at->toFormattedDateString('Y-m-d'):'' }}
                                                             </td>
                                                             <td>
                                                                 <x-admin.edit

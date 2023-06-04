@@ -220,4 +220,7 @@
   'vha]' => 'Vha]',
   'Index Resurvation' => 'Index Resurvation',
   'Form Resurvation' => 'Form Resurvation',
+  'راشد الدرة' => 'راشد الدرة',
+  'test' => 'Test',
+  'راشد' => 'راشد',
 );
