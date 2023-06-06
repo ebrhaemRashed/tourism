@@ -62,8 +62,6 @@ Route::group(
         Route::get('/thank_you', [TestSurveyController::class,'thankYou'])->name('thank_you_survey');
 
 
-
-        
-        
+        Route::get('/proposal',[TestSurveyController::class,'proposal'])->name('proposal_survey');
     // End Route
 });
