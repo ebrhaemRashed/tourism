@@ -293,6 +293,7 @@ class TestSurveyController extends Controller
             $output_array[$country_name]['main_city'] = $main_city->slug;
 
             $output_array[$country_name]['number_of_days'] = $days_for_each_country_after_add_mod[$key];
+            $days_in_each_country = $output_array[$country_name]['number_of_days'];
 
             $output_array[$country_name]['country_image'] = $country_image;
 
@@ -348,17 +349,19 @@ class TestSurveyController extends Controller
 
             // cities 
             $suggested_cities =City::where('country_id',$country_id)->whereIn('journey_type',$activities_countries);
-            
+            $arr_cities_slugs = [];
 
             if($city_or_theCountry == 17){ //cities
                 $suggested_cities = $suggested_cities->where('type','city')->get();
                 $output_array[$country_name]['suggested_cities(city)'] = implode(',',$suggested_cities->pluck('slug')->toArray());
+                $arr_cities_slugs = $suggested_cities->pluck('slug')->toArray();
                 $output_array[$country_name]['suggested_cities(image)'] = $suggested_cities->pluck('image')->toArray();
                 $output_array[$country_name]['suggested_cities(city_cost)'] = $suggested_cities->first()->journey_cost??0;
 
-            }elseif($city_or_theCountry == 17) {//the_country
+            }elseif($city_or_theCountry == 18) {//the_country
                 $suggested_cities = $suggested_cities->where('type','the_country')->get();
                 $output_array[$country_name]['suggested_cities_(the_country)'] = implode(',',$suggested_cities->pluck('slug')->toArray());
+                $arr_cities_slugs = $suggested_cities->pluck('slug')->toArray();
                 $output_array[$country_name]['suggested_cities(image)'] = $suggested_cities->pluck('image')->toArray();
                 $output_array[$country_name]['suggested_cities(the_country_cost)'] = $suggested_cities->first()->journey_cost??0;
 
@@ -369,80 +372,51 @@ class TestSurveyController extends Controller
                 $output_array[$country_name]['both_cost'] = $suggested_cities->first()->journey_cost??0;
 
             }
+
+
+
+
+
+
+
+            // equation of division days_count_for_country / count_of_choosed_cities
+            $count_of_choosed_cities = $suggested_cities->count();
+            $days_for_each_city = $days_in_each_country/$count_of_choosed_cities;   //  10/3
+            $days_for_each_city_converted = (int)$days_for_each_city;     //  3
+            $mod = fmod($days_in_each_country, $count_of_choosed_cities);       // 1
+            // $city_that_exceeds_mod = $days_for_each_city_converted + $mod ;   // 3+1 = 4
+
+            $days_for_each_city_after_add_mod = [];
+            for($i=0 ; $i < $count_of_choosed_cities ; $i++){
+                if($i == 0 ){
+                    $decimal_value = $days_for_each_city_converted + $mod;
+                    $days_for_each_city_after_add_mod[] = (int)$decimal_value;
+                }else{
+                    $days_for_each_city_after_add_mod[] =  $days_for_each_city_converted;
+                }
+                
+            }
+
+
+            $arr_city_days = [];
+            foreach($arr_cities_slugs  as  $key => $c){
+                $arr_city_days[$c] = $days_for_each_city_after_add_mod[$key];
+            }
+
+            $output_array[$country_name]['city_days']= $arr_city_days;
+
+           
         }
 
         // dd($output_array);
-
+            
 
         return view('frontend.page.proposal',['output_array' => $output_array]);
 
 
-
-        // $first_country_answer_id = $arr_countries[0];
-        // $first_choosed_country_name = Answer::Where('id',$first_country_answer_id)->first()->answer;   //النمسا
-        // $first_country_id = Country::where('slug',$first_choosed_country_name)->first()->id;
-
-        // $main_city = City::where('country_id',$first_country_id)->where('is_main','1')->first();
-        // $output_array['main_city'] = $main_city->slug;
-
-
-        // $suggested_hotels_or_apartments = '';
-        // if($hotels_or_apartment == 3){ //hotels
-        //     $suggested_hotels_or_apartments = HotelApartment::where('country_id',$first_country_id)->where('city_id',$main_city->id)->where('type','Hotel')->where('stars',$stars)->get();
-        //     $output_array['suggested_hotels'] = $suggested_hotels_or_apartments;
-
-        
-        // }else{ //apartment
-        //     $suggested_hotels_or_apartments = HotelApartment::where('country_id',$first_country_id)->where('city_id',$main_city->id)->where('type','Apartment')->where('stars',$stars)->get();
-        //     $output_array['suggested_appartments'] = $suggested_hotels_or_apartments;
-        // }
-
-        // $suggested_cars = '';
-        // if($car_type == 4){ //car with driver
-        //     $suggested_cars = Cars::where('country_id',$first_country_id)->where('city_id',$main_city->id)->where('stars',$stars)->where('type','car_with_driver')->get();
-        //     $output_array['car_with_driver'] = $suggested_cars;
-        // }elseif($car_type == 5){ //rental car
-        //     $suggested_cars = Cars::where('country_id',$first_country_id)->where('city_id',$main_city->id)->where('stars',$stars)->where('type','rental_car')->get();
-        //     $output_array['rental_car'] = $suggested_cars;
-        // }else{ //transportation  car_type = 7
-        //     $suggested_cars = PublicTransportation::where('country_id',$first_country_id)->where('city_id',$main_city->id)->first();
-        //     $output_array['public_transportation'] = $suggested_cars;
-        // }
-
-
-
-        // $first_selected_activity = $activities_countries[0];
-        // $suggested_cities =City::where('country_id',$first_country_id);
-        // if($first_selected_activity == 23){ //family
-        //     $suggested_cities = $suggested_cities->where('journey_type','family');
-        // }elseif($first_selected_activity == 24){ //museums
-        //     $suggested_cities = $suggested_cities->where('journey_type','museums');
-        // }elseif($first_selected_activity == 25){//relax
-        //     $suggested_cities = $suggested_cities->where('journey_type','relax');
-        // }else{//romantic
-        //     $suggested_cities = $suggested_cities->where('journey_type','romantic');
-        // }
-
-
-        // if($city_or_theCountry == 17){ //cities
-        //     $suggested_cities = $suggested_cities->where('type','city')->get();
-        //     $output_array['suggested_cities(city)'] = $suggested_cities;
-
-        // }elseif($city_or_theCountry == 17) {//the_country
-        //     $suggested_cities = $suggested_cities->where('type','the_country')->get();
-        //     $output_array['suggested_cities_(the_country)'] = $suggested_cities;
-
-        // }else{ //both
-        //     $suggested_cities = $suggested_cities->where('type','both')->get();
-        //     $output_array['suggested_cities'] = $suggested_cities;
-        // }
-
-
-    
- 
         //////////////////////////////////////////////////////////////////////////////////////////////////
         // 5) redirect to thank you page
-        return redirect()->route('thank_you_survey');
+        // return redirect()->route('thank_you_survey');
 
 
 
