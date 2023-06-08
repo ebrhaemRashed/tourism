@@ -11,7 +11,10 @@ use App\Models\Answer;
 use App\Models\Cars;
 use App\Models\City;
 use App\Models\Country;
+use App\Models\Group;
+use App\Models\GroupLocation;
 use App\Models\HotelApartment;
+use App\Models\Location;
 use App\Models\PublicTransportation;
 use App\Models\Resurvation;
 
@@ -347,31 +350,78 @@ class TestSurveyController extends Controller
 
 
 
-            // cities 
-            $suggested_cities =City::where('country_id',$country_id)->whereIn('journey_type',$activities_countries);
-            $arr_cities_slugs = [];
-
-            if($city_or_theCountry == 17){ //cities
-                $suggested_cities = $suggested_cities->where('type','city')->get();
-                $output_array[$country_name]['suggested_cities(city)'] = implode(',',$suggested_cities->pluck('slug')->toArray());
-                $arr_cities_slugs = $suggested_cities->pluck('slug')->toArray();
-                $output_array[$country_name]['suggested_cities(image)'] = $suggested_cities->pluck('image')->toArray();
-                $output_array[$country_name]['suggested_cities(city_cost)'] = $suggested_cities->first()->journey_cost??0;
-
-            }elseif($city_or_theCountry == 18) {//the_country
-                $suggested_cities = $suggested_cities->where('type','the_country')->get();
-                $output_array[$country_name]['suggested_cities_(the_country)'] = implode(',',$suggested_cities->pluck('slug')->toArray());
-                $arr_cities_slugs = $suggested_cities->pluck('slug')->toArray();
-                $output_array[$country_name]['suggested_cities(image)'] = $suggested_cities->pluck('image')->toArray();
-                $output_array[$country_name]['suggested_cities(the_country_cost)'] = $suggested_cities->first()->journey_cost??0;
 
 
-            }else{ //both
-                $suggested_cities = $suggested_cities->where('type','both')->get();
-                $output_array[$country_name]['both'] = $suggested_cities;
-                $output_array[$country_name]['both_cost'] = $suggested_cities->first()->journey_cost??0;
+
+            // days
+            $locationsIDS_in_choosed_country = Location::where('country_id',$country_id)->pluck('id')->toArray();
+            $days = GroupLocation::whereIn('location_id',$locationsIDS_in_choosed_country)->where('group_id','<=',$days_in_each_country)->get();
+
+
+            $arr= [];
+            foreach($days as $d){
+                if($d->group_id == 1 ){
+                    $arr['one'][] = Location::where('id',$d->location_id)->first()->slug;
+                    
+                }else if($d->group_id == 2 ){
+                    $arr['two'][] = Location::where('id',$d->location_id)->first()->slug;
+                    
+                }else if($d->group_id == 3 ){
+                    $arr['three'][] = Location::where('id',$d->location_id)->first()->slug;
+                    
+                }else if($d->group_id == 4 ){
+                    $arr['four'][] = Location::where('id',$d->location_id)->first()->slug;
+                    
+                }else if($d->group_id == 5 ){
+                    $arr['five'][] = Location::where('id',$d->location_id)->first()->slug;
+                    
+                }else if($d->group_id == 6 ){
+                    $arr['six'][] = Location::where('id',$d->location_id)->first()->slug;
+                    
+                }else if($d->group_id == 7 ){
+                    $arr['seven'][] = Location::where('id',$d->location_id)->first()->slug;
+                    
+                }else if($d->group_id == 8 ){
+                    $arr['eight'][] = Location::where('id',$d->location_id)->first()->slug;
+
+                }else if($d->group_id == 9 ){
+                    $arr['nine'][] = Location::where('id',$d->location_id)->first()->slug;
+                    
+                }else if($d->group_id == 10 ){
+                    $arr['ten'][] = Location::where('id',$d->location_id)->first()->slug;
+                }
 
             }
+
+            $output_array[$country_name]['days'] = $arr;
+
+            
+
+            // cities 
+            // $suggested_cities =City::where('country_id',$country_id)->whereIn('journey_type',$activities_countries);
+            // $arr_cities_slugs = [];
+
+            // if($city_or_theCountry == 17){ //cities
+            //     $suggested_cities = $suggested_cities->where('type','city')->get();
+            //     $output_array[$country_name]['suggested_cities(city)'] = implode(',',$suggested_cities->pluck('slug')->toArray());
+            //     $arr_cities_slugs = $suggested_cities->pluck('slug')->toArray();
+            //     $output_array[$country_name]['suggested_cities(image)'] = $suggested_cities->pluck('image')->toArray();
+            //     $output_array[$country_name]['suggested_cities(city_cost)'] = $suggested_cities->first()->journey_cost??0;
+
+            // }elseif($city_or_theCountry == 18) {//the_country
+            //     $suggested_cities = $suggested_cities->where('type','the_country')->get();
+            //     $output_array[$country_name]['suggested_cities_(the_country)'] = implode(',',$suggested_cities->pluck('slug')->toArray());
+            //     $arr_cities_slugs = $suggested_cities->pluck('slug')->toArray();
+            //     $output_array[$country_name]['suggested_cities(image)'] = $suggested_cities->pluck('image')->toArray();
+            //     $output_array[$country_name]['suggested_cities(the_country_cost)'] = $suggested_cities->first()->journey_cost??0;
+
+
+            // }else{ //both
+            //     $suggested_cities = $suggested_cities->where('type','both')->get();
+            //     $output_array[$country_name]['both'] = $suggested_cities;
+            //     $output_array[$country_name]['both_cost'] = $suggested_cities->first()->journey_cost??0;
+
+            // }
 
 
 
@@ -380,35 +430,35 @@ class TestSurveyController extends Controller
 
 
             // equation of division days_count_for_country / count_of_choosed_cities
-            $count_of_choosed_cities = $suggested_cities->count();
-            $days_for_each_city = $days_in_each_country/$count_of_choosed_cities;   //  10/3
-            $days_for_each_city_converted = (int)$days_for_each_city;     //  3
-            $mod = fmod($days_in_each_country, $count_of_choosed_cities);       // 1
-            // $city_that_exceeds_mod = $days_for_each_city_converted + $mod ;   // 3+1 = 4
+            // $count_of_choosed_cities = $suggested_cities->count();
+            // $days_for_each_city = $days_in_each_country/$count_of_choosed_cities;   //  10/3
+            // $days_for_each_city_converted = (int)$days_for_each_city;     //  3
+            // $mod = fmod($days_in_each_country, $count_of_choosed_cities);       // 1
+            // // $city_that_exceeds_mod = $days_for_each_city_converted + $mod ;   // 3+1 = 4
 
-            $days_for_each_city_after_add_mod = [];
-            for($i=0 ; $i < $count_of_choosed_cities ; $i++){
-                if($i == 0 ){
-                    $decimal_value = $days_for_each_city_converted + $mod;
-                    $days_for_each_city_after_add_mod[] = (int)$decimal_value;
-                }else{
-                    $days_for_each_city_after_add_mod[] =  $days_for_each_city_converted;
-                }
+            // $days_for_each_city_after_add_mod = [];
+            // for($i=0 ; $i < $count_of_choosed_cities ; $i++){
+            //     if($i == 0 ){
+            //         $decimal_value = $days_for_each_city_converted + $mod;
+            //         $days_for_each_city_after_add_mod[] = (int)$decimal_value;
+            //     }else{
+            //         $days_for_each_city_after_add_mod[] =  $days_for_each_city_converted;
+            //     }
                 
-            }
+            // }
 
 
-            $arr_city_days = [];
-            foreach($arr_cities_slugs  as  $key => $c){
-                $arr_city_days[$c] = $days_for_each_city_after_add_mod[$key];
-            }
+            // $arr_city_days = [];
+            // foreach($arr_cities_slugs  as  $key => $c){
+            //     $arr_city_days[$c] = $days_for_each_city_after_add_mod[$key];
+            // }
 
-            $output_array[$country_name]['city_days']= $arr_city_days;
+            // $output_array[$country_name]['city_days']= $arr_city_days;
 
            
         }
 
-        // dd($output_array);
+        dd($output_array);
             
 
         return view('frontend.page.proposal',['output_array' => $output_array]);
