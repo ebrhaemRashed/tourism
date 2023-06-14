@@ -458,7 +458,7 @@ class TestSurveyController extends Controller
            
         }
 
-        dd($output_array);
+        // dd($output_array);
             
 
         return view('frontend.page.proposal',['output_array' => $output_array]);

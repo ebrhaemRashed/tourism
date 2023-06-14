@@ -106,18 +106,60 @@
                                 echo('<div class="col-6 mt-5">');
                                 echo('<h2>  day '. $i .' : </h2>');
 
-                                echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2">
-                                    <li>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                                    </li>
+                                foreach($value['days'] as $key => $day){
+                                    if($i == 1 && $key == 'one'){
+                                        foreach($day as $journey){
+                                            echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
+                                            echo($journey);
+                                            echo('</li><br></ul>') ;
+                                        }
+                                    }elseif($i == 2 && $key == 'two'){
+                                        foreach($day as $journey){
+                                            echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
+                                            echo($journey);
+                                            echo('</li><br></ul>') ;
+                                        }
+                                    }elseif($i == 3 && $key == 'three'){
+                                        foreach($day as $journey){
+                                            echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
+                                            echo($journey);
+                                            echo('</li><br></ul>') ;
+                                        }
+                                    }elseif($i == 4 && $key == 'four'){
+                                        foreach($day as $journey){
+                                            echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
+                                            echo($journey);
+                                            echo('</li><br></ul>') ;
+                                        }
+                                    }elseif($i == 5 && $key == 'five'){
+                                        foreach($day as $journey){
+                                            echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
+                                            echo($journey);
+                                            echo('</li><br></ul>') ;
+                                        }
+                                    }elseif($i == 6 && $key == 'six'){
+                                        foreach($day as $journey){
+                                            echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
+                                            echo($journey);
+                                            echo('</li><br></ul>') ;
+                                        }
+                                    }elseif($i == 7 && $key == 'seven'){
+                                        foreach($day as $journey){
+                                            echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
+                                            echo($journey);
+                                            echo('</li><br></ul>') ;
+                                        }
+                                    }elseif($i == 8 && $key == 'eight'){
+                                        foreach($day as $journey){
+                                            echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
+                                            echo($journey);
+                                            echo('</li><br></ul>') ;
+                                        }
+                                    }
+                                    
 
-                                    <br>
-
-                                    <li>
-                                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </li>
-                                
-                                </ul> ');
+                                    
+                                }
 
                              
                                 echo('</div>'); 
