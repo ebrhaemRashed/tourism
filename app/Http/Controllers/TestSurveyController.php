@@ -319,7 +319,7 @@ class TestSurveyController extends Controller
                 $suggested_hotels_or_apartments = HotelApartment::where('country_id',$country_id)->where('city_id',$main_city->id)->where('type','Apartment')->where('stars',$stars)->get();
                 $output_array[$country_name]['suggested_appartments'] = implode(",",$suggested_hotels_or_apartments->pluck('slug')->toArray());
 
-                $output_array[$country_name]['appartment_cost'] =$suggested_hotels_or_apartments->first()->price;
+                $output_array[$country_name]['hotel_cost'] =$suggested_hotels_or_apartments->first()?$suggested_hotels_or_apartments->first()->price:0;
             }
 
 
@@ -343,7 +343,7 @@ class TestSurveyController extends Controller
             }else{ //transportation  car_type = 7
                 $suggested_cars = PublicTransportation::where('country_id',$country_id)->where('city_id',$main_city->id)->first();
                 $output_array[$country_name]['public_transportation'] = $suggested_cars;
-                $output_array[$country_name]['transportation_cost'] = $suggested_cars->first()->price ?? 0 ;
+                $output_array[$country_name]['car_cost'] = $suggested_cars->first()->price ? (($suggested_cars->first()->price)*($all_travellers)) : 0 ;
 
             }
 
@@ -353,7 +353,7 @@ class TestSurveyController extends Controller
 
 
 
-            // days
+            // days 
             $locationsIDS_in_choosed_country = Location::where('country_id',$country_id)->pluck('id')->toArray();
             $days = GroupLocation::whereIn('location_id',$locationsIDS_in_choosed_country)->where('group_id','<=',$days_in_each_country)->get();
 
@@ -361,39 +361,77 @@ class TestSurveyController extends Controller
             $arr= [];
             foreach($days as $d){
                 if($d->group_id == 1 ){
-                    $arr['one'][] = Location::where('id',$d->location_id)->first()->slug;
+                    $arr['day_one'][] = Location::where('id',$d->location_id)->first()->slug;
                     
                 }else if($d->group_id == 2 ){
-                    $arr['two'][] = Location::where('id',$d->location_id)->first()->slug;
+                    $arr['day_two'][] = Location::where('id',$d->location_id)->first()->slug;
                     
                 }else if($d->group_id == 3 ){
-                    $arr['three'][] = Location::where('id',$d->location_id)->first()->slug;
+                    $arr['day_three'][] = Location::where('id',$d->location_id)->first()->slug;
                     
                 }else if($d->group_id == 4 ){
-                    $arr['four'][] = Location::where('id',$d->location_id)->first()->slug;
+                    $arr['day_four'][] = Location::where('id',$d->location_id)->first()->slug;
                     
                 }else if($d->group_id == 5 ){
-                    $arr['five'][] = Location::where('id',$d->location_id)->first()->slug;
+                    $arr['day_five'][] = Location::where('id',$d->location_id)->first()->slug;
                     
                 }else if($d->group_id == 6 ){
-                    $arr['six'][] = Location::where('id',$d->location_id)->first()->slug;
+                    $arr['day_six'][] = Location::where('id',$d->location_id)->first()->slug;
                     
                 }else if($d->group_id == 7 ){
-                    $arr['seven'][] = Location::where('id',$d->location_id)->first()->slug;
+                    $arr['day_seven'][] = Location::where('id',$d->location_id)->first()->slug;
                     
                 }else if($d->group_id == 8 ){
-                    $arr['eight'][] = Location::where('id',$d->location_id)->first()->slug;
+                    $arr['day_eight'][] = Location::where('id',$d->location_id)->first()->slug;
 
                 }else if($d->group_id == 9 ){
-                    $arr['nine'][] = Location::where('id',$d->location_id)->first()->slug;
+                    $arr['day_nine'][] = Location::where('id',$d->location_id)->first()->slug;
                     
                 }else if($d->group_id == 10 ){
-                    $arr['ten'][] = Location::where('id',$d->location_id)->first()->slug;
+                    $arr['day_ten'][] = Location::where('id',$d->location_id)->first()->slug;
                 }
 
             }
 
             $output_array[$country_name]['days'] = $arr;
+
+
+            $arr_prices= [];
+            foreach($days as $d){
+                if($d->group_id == 1 ){
+                    $arr_prices['Day_one'][] = Location::where('id',$d->location_id)->first()->price;
+                    
+                }else if($d->group_id == 2 ){
+                    $arr_prices['Day_two'][] = Location::where('id',$d->location_id)->first()->price;
+                    
+                }else if($d->group_id == 3 ){
+                    $arr_prices['Day_three'][] = Location::where('id',$d->location_id)->first()->price;
+                    
+                }else if($d->group_id == 4 ){
+                    $arr_prices['Day_four'][] = Location::where('id',$d->location_id)->first()->price;
+                    
+                }else if($d->group_id == 5 ){
+                    $arr_prices['Day_five'][] = Location::where('id',$d->location_id)->first()->price;
+                    
+                }else if($d->group_id == 6 ){
+                    $arr_prices['Day_six'][] = Location::where('id',$d->location_id)->first()->price;
+                    
+                }else if($d->group_id == 7 ){
+                    $arr_prices['Day_seven'][] = Location::where('id',$d->location_id)->first()->price;
+                    
+                }else if($d->group_id == 8 ){
+                    $arr_prices['Day_eight'][] = Location::where('id',$d->location_id)->first()->price;
+
+                }else if($d->group_id == 9 ){
+                    $arr_prices['Day_nine'][] = Location::where('id',$d->location_id)->first()->price;
+                    
+                }else if($d->group_id == 10 ){
+                    $arr_prices['Day_ten'][] = Location::where('id',$d->location_id)->first()->price;
+                }
+
+            }
+            $output_array[$country_name]['days_prices'] = $arr_prices;
+
 
             
 

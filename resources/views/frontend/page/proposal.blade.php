@@ -107,49 +107,49 @@
                                 echo('<h2>  day '. $i .' : </h2>');
 
                                 foreach($value['days'] as $key => $day){
-                                    if($i == 1 && $key == 'one'){
+                                    if($i == 1 && $key == 'day_one'){
                                         foreach($day as $journey){
                                             echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
                                             echo($journey);
                                             echo('</li><br></ul>') ;
                                         }
-                                    }elseif($i == 2 && $key == 'two'){
+                                    }elseif($i == 2 && $key == 'day_two'){
                                         foreach($day as $journey){
                                             echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
                                             echo($journey);
                                             echo('</li><br></ul>') ;
                                         }
-                                    }elseif($i == 3 && $key == 'three'){
+                                    }elseif($i == 3 && $key == 'day_three'){
                                         foreach($day as $journey){
                                             echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
                                             echo($journey);
                                             echo('</li><br></ul>') ;
                                         }
-                                    }elseif($i == 4 && $key == 'four'){
+                                    }elseif($i == 4 && $key == 'day_four'){
                                         foreach($day as $journey){
                                             echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
                                             echo($journey);
                                             echo('</li><br></ul>') ;
                                         }
-                                    }elseif($i == 5 && $key == 'five'){
+                                    }elseif($i == 5 && $key == 'day_five'){
                                         foreach($day as $journey){
                                             echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
                                             echo($journey);
                                             echo('</li><br></ul>') ;
                                         }
-                                    }elseif($i == 6 && $key == 'six'){
+                                    }elseif($i == 6 && $key == 'day_six'){
                                         foreach($day as $journey){
                                             echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
                                             echo($journey);
                                             echo('</li><br></ul>') ;
                                         }
-                                    }elseif($i == 7 && $key == 'seven'){
+                                    }elseif($i == 7 && $key == 'day_seven'){
                                         foreach($day as $journey){
                                             echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
                                             echo($journey);
                                             echo('</li><br></ul>') ;
                                         }
-                                    }elseif($i == 8 && $key == 'eight'){
+                                    }elseif($i == 8 && $key == 'day_eight'){
                                         foreach($day as $journey){
                                             echo('<ul style="font-size:17px;font-weight:bold;color:#258fa2"><li>');
                                             echo($journey);
@@ -228,6 +228,59 @@
             
         </div>
     </div>
+
+
+
+    <!-- table to cost all  -->
+    <div class="container">
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Country/Day</th>
+                    <th scope="col">Hotel</th>
+                    <th scope="col">Trans</th>
+                    <th scope="col">Journey</th>
+                    <th scope="col">Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                            
+            <?php
+                $total_cost = 0;
+            ?>
+
+
+                @foreach($output_array as $key => $value) 
+                        @foreach($value['days_prices'] as $key2 => $value2)
+                            @foreach($value2  as  $key3 => $value3)
+                                <tr>
+                                    <td>{{$key}}/{{$key2}}</td>
+                                    <td>{{$value['hotel_cost']}}</td>
+                                    <td>{{$value['car_cost']}}</td>
+                                    <td>{{$value3}}</td>
+                                    <td>{{$value['hotel_cost']+$value['car_cost']+$value3}}</td>
+                                    
+
+                                    <?php
+                                        $total_cost = $total_cost + ($value['hotel_cost']+$value['car_cost']+$value3);
+                                    ?>
+
+                                </tr>
+                            @endforeach
+                        @endforeach
+                @endforeach()    
+
+
+                <tr style="margin-top:20px">
+                    <th style="text-align:center" colspan="4"> TOTAL COST </th>
+                    <td> {{$total_cost}} </td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+  
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="{{asset('bootstrap/css/bootstrap.js')}}" type='text/javascript'>  </script>
