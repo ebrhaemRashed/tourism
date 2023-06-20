@@ -399,34 +399,34 @@ class TestSurveyController extends Controller
             $arr_prices= [];
             foreach($days as $d){
                 if($d->group_id == 1 ){
-                    $arr_prices['Day_one'][] = Location::where('id',$d->location_id)->first()->price;
+                    $arr_prices['Day_one'][] = Location::where('id',$d->location_id)->first()->price??0;
                     
                 }else if($d->group_id == 2 ){
-                    $arr_prices['Day_two'][] = Location::where('id',$d->location_id)->first()->price;
+                    $arr_prices['Day_two'][] = Location::where('id',$d->location_id)->first()->price??0;
                     
                 }else if($d->group_id == 3 ){
-                    $arr_prices['Day_three'][] = Location::where('id',$d->location_id)->first()->price;
+                    $arr_prices['Day_three'][] = Location::where('id',$d->location_id)->first()->price??0;
                     
                 }else if($d->group_id == 4 ){
-                    $arr_prices['Day_four'][] = Location::where('id',$d->location_id)->first()->price;
+                    $arr_prices['Day_four'][] = Location::where('id',$d->location_id)->first()->price??0;
                     
                 }else if($d->group_id == 5 ){
-                    $arr_prices['Day_five'][] = Location::where('id',$d->location_id)->first()->price;
+                    $arr_prices['Day_five'][] = Location::where('id',$d->location_id)->first()->price??0;
                     
                 }else if($d->group_id == 6 ){
-                    $arr_prices['Day_six'][] = Location::where('id',$d->location_id)->first()->price;
+                    $arr_prices['Day_six'][] = Location::where('id',$d->location_id)->first()->price??0;
                     
                 }else if($d->group_id == 7 ){
-                    $arr_prices['Day_seven'][] = Location::where('id',$d->location_id)->first()->price;
+                    $arr_prices['Day_seven'][] = Location::where('id',$d->location_id)->first()->price??0;
                     
                 }else if($d->group_id == 8 ){
-                    $arr_prices['Day_eight'][] = Location::where('id',$d->location_id)->first()->price;
+                    $arr_prices['Day_eight'][] = Location::where('id',$d->location_id)->first()->price??0;
 
                 }else if($d->group_id == 9 ){
-                    $arr_prices['Day_nine'][] = Location::where('id',$d->location_id)->first()->price;
+                    $arr_prices['Day_nine'][] = Location::where('id',$d->location_id)->first()->price??0;
                     
                 }else if($d->group_id == 10 ){
-                    $arr_prices['Day_ten'][] = Location::where('id',$d->location_id)->first()->price;
+                    $arr_prices['Day_ten'][] = Location::where('id',$d->location_id)->first()->price??0;
                 }
 
             }
