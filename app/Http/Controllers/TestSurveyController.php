@@ -343,7 +343,8 @@ class TestSurveyController extends Controller
             }else{ //transportation  car_type = 7
                 $suggested_cars = PublicTransportation::where('country_id',$country_id)->where('city_id',$main_city->id)->first();
                 $output_array[$country_name]['public_transportation'] = $suggested_cars;
-                $output_array[$country_name]['car_cost'] = $suggested_cars->first()->price ? (($suggested_cars->first()->price)*($all_travellers)) : 0 ;
+                $output_array[$country_name]['car_image'] = $suggested_cars?$suggested_cars->pluck('image')->toArray(): [];
+                $output_array[$country_name]['car_cost'] = $suggested_cars ? (($suggested_cars->first()->price)*($all_travellers)) : 0 ;
 
             }
 
@@ -499,7 +500,7 @@ class TestSurveyController extends Controller
         // dd($output_array);
             
 
-        return view('frontend.page.proposal',['output_array' => $output_array]);
+        return view('frontend.page.proposalOriginal',['output_array' => $output_array]);
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////////

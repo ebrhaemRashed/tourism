@@ -168,7 +168,7 @@
 
 
     <!-- table to cost all  -->
-    <div class="container">
+    <div class="container-fluid">
         <div class="row" >
             <div class="col-10" style="margin:auto">
                 <table class="table table-dark table-striped">
